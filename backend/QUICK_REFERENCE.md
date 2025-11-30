@@ -137,6 +137,34 @@ router.post('/order', validateOrder, createOrder);
 
 ---
 
+## File Uploads
+
+### Import
+```javascript
+const upload = require('../middleware/uploadMiddleware');
+```
+
+### Route Usage
+```javascript
+// Single file upload (field name: 'image')
+router.post('/product', upload.single('image'), createProduct);
+```
+
+### Accessing File in Controller
+```javascript
+const createProduct = asyncHandler(async (req, res) => {
+  const file = req.file; // Contains file info
+  // file.path -> path to saved file
+  // file.filename -> saved filename
+  
+  const imageUrl = file ? `/uploads/products/${file.filename}` : null;
+  
+  // ... create product with imageUrl
+});
+```
+
+---
+
 ## Services
 
 ### Analytics Service

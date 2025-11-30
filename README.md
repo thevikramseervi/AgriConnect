@@ -2,7 +2,7 @@
 
 A full-stack agricultural marketplace platform connecting **Farmers**, **Vendors**, and **Customers** in a seamless supply chain.
 
-**Status**: ✅ **Production Ready** (9/10) | **Last Updated**: November 23, 2025
+**Status**: ✅ **Production Ready** (9/10) | **Last Updated**: November 30, 2025
 
 ## 📋 Overview
 
@@ -73,12 +73,15 @@ agriConnect/
 │   ├── middleware/       # Auth & role middleware
 │   ├── models/          # Mongoose models
 │   ├── routes/          # API routes
+│   ├── services/        # Service layer logic
+│   ├── uploads/         # Image uploads storage
 │   ├── utils/           # Helper functions
 │   ├── index.js         # Entry point
 │   └── package.json
 │
 └── frontend/
     ├── src/
+    │   ├── assets/      # Static assets
     │   ├── components/  # Reusable components
     │   ├── contexts/    # React contexts
     │   ├── pages/       # Page components
@@ -92,13 +95,14 @@ agriConnect/
 
 ### 👨‍🌾 Farmer Dashboard
 - ✅ Create, edit, and delete product listings
+- ✅ Upload product images
 - ✅ Set prices and quantities
 - ✅ Track product status (available/partial/sold)
 - ✅ View sales analytics by date
 - ✅ Monitor revenue
 
 ### 🏪 Vendor Dashboard
-- ✅ Browse available farmer products
+- ✅ Browse available farmer products with images
 - ✅ Purchase from farmers
 - ✅ Manage inventory
 - ✅ View sales analytics
@@ -106,7 +110,7 @@ agriConnect/
 - ✅ Prevent duplicate purchases
 
 ### 🛒 Customer Dashboard
-- ✅ Browse products by locality
+- ✅ Browse products by locality with images
 - ✅ Shopping cart functionality
 - ✅ Add/remove items with quantity control
 - ✅ Place orders with multiple items
@@ -298,7 +302,7 @@ All major bugs have been fixed and the application is **production ready**. See 
 ### Future Enhancements 🚀
 - [ ] Complete test coverage (40-60 hours)
 - [ ] Implement market price cron job
-- [ ] Add image upload for products
+- [x] Add image upload for products (Completed)
 - [ ] Implement real payment gateway
 - [ ] Add email notifications
 - [ ] Implement websockets for real-time updates

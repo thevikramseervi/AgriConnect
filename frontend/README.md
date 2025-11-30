@@ -6,6 +6,7 @@ A modern React-based frontend for the AgriConnect platform, connecting farmers, 
 
 ### For Farmers 👨‍🌾
 - Create and manage product listings
+- Upload product images
 - Set prices and quantities
 - Track sales analytics
 - Monitor inventory status
@@ -85,6 +86,7 @@ npm run preview
 ```
 frontend/
 ├── src/
+│   ├── assets/           # Static assets
 │   ├── components/       # Reusable components
 │   │   ├── Layout.jsx
 │   │   └── ProtectedRoute.jsx
