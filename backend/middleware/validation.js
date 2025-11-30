@@ -7,7 +7,7 @@ const { HTTP_STATUS, MESSAGES } = require('../utils/constants');
 
 const validateRegister = (req, res, next) => {
   const { name, email, password, role, locality, address, phone } = req.body;
-  
+
   // Check required fields
   if (!name || !email || !password || !role || !locality || !address || !phone) {
     return res.status(HTTP_STATUS.BAD_REQUEST).json({
@@ -26,7 +26,7 @@ const validateRegister = (req, res, next) => {
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
-  
+
   if (!hasUpperCase || !hasLowerCase || !hasNumber) {
     return res.status(HTTP_STATUS.BAD_REQUEST).json({
       message: 'Password must contain at least one uppercase letter, one lowercase letter, and one number'
@@ -62,7 +62,7 @@ const validateRegister = (req, res, next) => {
 
 const validateLogin = (req, res, next) => {
   const { email, password } = req.body;
-  
+
   if (!email || !password) {
     return res.status(HTTP_STATUS.BAD_REQUEST).json({
       message: 'Email and password are required'
@@ -73,12 +73,23 @@ const validateLogin = (req, res, next) => {
 };
 
 const validateProduct = (req, res, next) => {
-  const { name, pricePerUnit, quantity, category, locality, address } = req.body;
-  
+  let { name, pricePerUnit, quantity, category, locality, address } = req.body;
+
   // Check all required fields
   if (!name || !pricePerUnit || !quantity || !category || !locality || !address) {
     return res.status(HTTP_STATUS.BAD_REQUEST).json({
       message: 'Name, pricePerUnit, quantity, category, locality, and address are required'
+    });
+  }
+
+  // Convert to numbers (handling multipart/form-data string inputs)
+  pricePerUnit = Number(pricePerUnit);
+  quantity = Number(quantity);
+
+  // Validate types
+  if (isNaN(pricePerUnit) || isNaN(quantity)) {
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
+      message: 'Price and quantity must be valid numbers'
     });
   }
 
@@ -89,19 +100,16 @@ const validateProduct = (req, res, next) => {
     });
   }
 
-  // Validate types
-  if (typeof pricePerUnit !== 'number' || typeof quantity !== 'number') {
-    return res.status(HTTP_STATUS.BAD_REQUEST).json({
-      message: 'Price and quantity must be numbers'
-    });
-  }
+  // Update req.body with parsed numbers
+  req.body.pricePerUnit = pricePerUnit;
+  req.body.quantity = quantity;
 
   next();
 };
 
 const validatePurchase = (req, res, next) => {
   const { quantity } = req.body;
-  
+
   if (!quantity || quantity <= 0) {
     return res.status(HTTP_STATUS.BAD_REQUEST).json({
       message: 'Quantity must be greater than 0'
@@ -113,7 +121,7 @@ const validatePurchase = (req, res, next) => {
 
 const validateOrder = (req, res, next) => {
   const { address, items } = req.body;
-  
+
   if (!address || !items || !Array.isArray(items) || items.length === 0) {
     return res.status(HTTP_STATUS.BAD_REQUEST).json({
       message: 'Address and items array are required'
@@ -133,7 +141,7 @@ const validateOrder = (req, res, next) => {
 
 const validateObjectId = (req, res, next) => {
   const idParam = req.params.productId || req.params.orderId;
-  
+
   if (idParam && !mongoose.Types.ObjectId.isValid(idParam)) {
     return res.status(HTTP_STATUS.BAD_REQUEST).json({
       message: MESSAGES.COMMON.INVALID_ID
